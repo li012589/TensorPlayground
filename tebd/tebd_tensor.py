@@ -1,6 +1,8 @@
 import torch
 import numpy as np
 
+from scipy import integrate
+
 import argparse
 
 parser = argparse.ArgumentParser(description="")
@@ -64,4 +66,9 @@ E /= 2
 
 print("E:",E.item())
 
+if args.J == 1:
+    def f(k, hx):
+        return -np.sqrt(1 + hx**2 - 2 * hx * np.cos(k)) / np.pi
+    E0_exact = integrate.quad(f, 0, np.pi, args=(args.Hx, ))[0]
+    print("Exact E:", E0_exact)
 
